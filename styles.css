@@ -1,0 +1,26 @@
+.allMsg .user {
+    cursor: pointer;
+}
+
+.block-unblock-user,
+.toggle-message {
+    cursor: pointer;
+    width: 11px;
+    height: 11px;
+    margin-right: 5px;
+}
+
+.blocked .user,
+.blocked .block-unblock-user,
+.blocked .toggle-message {
+    color: rgb(211, 209, 207) !important;
+}
+
+.message-text {
+    cursor: pointer;
+}
+
+.message-text.collapsed {
+    display: none;
+    clear: both;
+}
