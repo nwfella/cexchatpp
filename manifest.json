@@ -3,7 +3,7 @@
 
   "name": "CEXChat++",
   "description": "Adds extra features to CEX.io chat.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
@@ -30,7 +30,6 @@
       "js": [
         "jquery-1.10.2.min.js",
         "underscore-1.5.2.min.js",
-        "utils.js",
         "contentscript.js"
       ]
     }
