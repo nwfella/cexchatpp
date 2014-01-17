@@ -1,0 +1,16 @@
+html,
+body {
+    width: 500px;
+}
+
+body {
+    padding: 10px 20px;
+}
+
+select[name="blocked_users"] {
+    margin-bottom: 15px;
+}
+
+button {
+    min-width: 100px;
+}

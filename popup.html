@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>CEXChat++</title>
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="popup.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <h3>Blocked Users</h3>
+        <select multiple class="form-control" name="blocked_users"></select>
+        <button class="btn btn-default btn-block" id="action_remove" disabled="disabled">Remove</button>
+        </div>
+      </div>
+      <div class="row">
+        <h3>Action taken when blocking messages:</h3>
+        <div class="radio">
+          <label>
+            <input type="radio" name="blocked_message_action" value="hide">
+            Hide blocked user's messages.
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="blocked_message_action" value="dim">
+            Dim and collapse blocked user's messages.
+          </label>
+        </div>
+      </div>
+    </div> <!-- /container -->
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="underscore-1.5.2.min.js"></script>
+    <script type="text/javascript" src="contentscript.js"></script>
+    <script type="text/javascript" src="popup.js"></script>
+  </body>
+</html>

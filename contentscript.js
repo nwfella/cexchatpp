@@ -23,6 +23,71 @@ var moveCaretToEnd = function($element) {
 
 }
 
+var getMessageAction = function(callback) {
+    chrome.storage.sync.get('CCPP_MESSAGE_ACTION', function(data) {
+        callback(data.CCPP_MESSAGE_ACTION || 'dim');
+    });
+}
+
+var setMessageAction = function(value) {
+    chrome.storage.sync.set({
+        CCPP_MESSAGE_ACTION: value,
+    });
+}
+
+var getBlockedUsers = function(callback) {
+    chrome.storage.sync.get('CCPP_BLOCKED_USERS', function(data) {
+        callback(data.CCPP_BLOCKED_USERS || []);
+    });
+}
+
+var storeBlockedUsers = function(users) {
+    chrome.storage.sync.set({
+        CCPP_BLOCKED_USERS: users
+    });
+}
+
+var isBlocked = function(username, callback) {
+    getBlockedUsers(function(users) {
+        callback(users.indexOf(username) !== -1);
+    });
+}
+
+var blockUsername = function(username) {
+    getBlockedUsers(function(users) {
+
+        if (users.indexOf(username) === -1)
+            users.push(username);
+
+        storeBlockedUsers(users);
+
+    });
+}
+
+var unblockUsername = function(username) {
+    getBlockedUsers(function(users) {
+
+        var index = users.indexOf(username);
+        if (index !== -1)
+            users.splice(index, 1);
+
+        storeBlockedUsers(users);
+    });
+}
+
+var unblockUsernames = function(usernames) {
+    getBlockedUsers(function(users) {
+
+        _.each(usernames, function(username) {
+            var index = users.indexOf(username);
+            if (index !== -1)
+                users.splice(index, 1);
+        });
+
+        storeBlockedUsers(users);
+    });
+}
+
 var getMessageInput = function() {
     return $('textarea#msg');
 }
@@ -70,50 +135,6 @@ var getUsername = function($element) {
     return $element.children('span.user').text().replace(":", "").trim();
 }
 
-var getBlockedUsers = function(callback) {
-    chrome.storage.sync.get('CCPP_BLOCKED_USERS', function(data) {
-        callback(data.CCPP_BLOCKED_USERS || []);
-    });
-}
-
-var storeBlockedUsers = function(users) {
-    chrome.storage.sync.set({
-        CCPP_BLOCKED_USERS: users
-    });
-}
-
-var isBlocked = function(username, callback) {
-    getBlockedUsers(function(users) {
-        callback(users.indexOf(username) !== -1);
-    });
-}
-
-var blockUsername = function(username) {
-    getBlockedUsers(function(users) {
-
-        if (users.indexOf(username) === -1)
-            users.push(username);
-
-        blockMessage(getUnblockedMessages(username));
-
-        storeBlockedUsers(users);
-
-    });
-}
-
-var unblockUsername = function(username) {
-    getBlockedUsers(function(users) {
-
-        var index = users.indexOf(username);
-        if (index !== -1)
-            users.splice(index, 1);
-
-        unblockMessage(getBlockedMessages(username));
-
-        storeBlockedUsers(users);
-    });
-}
-
 var addBlockButton = function($element) {
     var $blocker = $('<a>')
         .addClass('block-unblock-user')
@@ -127,10 +148,13 @@ var addBlockButton = function($element) {
 
         isBlocked(username, function(blocked) {
 
-            if (blocked)
+            if (blocked) {
                 unblockUsername(username);
-            else
+                unblockMessage(getBlockedMessages(username));
+            } else {
                 blockUsername(username);
+                blockMessage(getUnblockedMessages(username));
+            }
 
         });
 
@@ -192,8 +216,15 @@ var wrapMessages = function($element) {
 }
 
 var blockMessage = function($element) {
-    $element.addClass('blocked');
-    $element.children('span.message-text').addClass('collapsed');
+    getMessageAction(function(action) {
+        if (action === 'dim') {
+            $element.addClass('blocked');
+            $element.children('span.message-text').addClass('collapsed');
+        } else {
+            console.log('hiding element');
+            $element.hide();
+        }
+    });
 }
 
 var updateBlockedMessages = function() {
