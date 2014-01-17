@@ -199,12 +199,7 @@ var getBlockedMessages = function(username) {
 
 var wrapMessage = function($element) {
     var $messageElement = $('<span>')
-        .addClass('message-text')
-        .click(function(e) {
-            var $target = $(e.target);
-            setInputText('re: "' + $target.text() + '" ');
-            focusInputAndMoveToEnd();
-        });
+        .addClass('message-text');
     var $contents = $element.contents();
     $contents.slice(4, $contents.length).wrapAll($messageElement);
 }
@@ -220,10 +215,8 @@ var blockMessage = function($element) {
         if (action === 'dim') {
             $element.addClass('blocked');
             $element.children('span.message-text').addClass('collapsed');
-        } else {
-            console.log('hiding element');
+        } else
             $element.hide();
-        }
     });
 }
 
@@ -237,8 +230,13 @@ var updateBlockedMessages = function() {
 }
 
 var unblockMessage = function($element) {
-    $element.removeClass('blocked');
-    $element.children('span.message-text').removeClass('collapsed');
+    getMessageAction(function(action) {
+        if (action === 'dim') {
+            $element.removeClass('blocked');
+            $element.children('span.message-text').removeClass('collapsed');
+        } else
+            $element.show();
+    });
 }
 
 $(function() {
@@ -259,4 +257,27 @@ $(function() {
     });
 });
 
-
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.action == 'UNBLOCKUSERS') {
+        _.each(request.users, function(user) {
+            unblockMessage(getBlockedMessages(user));
+        });
+        sendResponse({status: 'OK'});
+    } else if (request.action === 'CHANGEBLOCKSTYLE') {
+        _.each($('.allMsg.blocked'), function(element) {
+            var $message = $(element);
+            console.log('blocking')
+            $message
+                .show()
+                .children('span.message-text')
+                .removeClass('collapsed');
+            if (request.style === 'dim')
+                $message
+                    .children('span.message-text')
+                    .addClass('collapsed');
+            else if (request.style === 'hide')
+                $message.hide();
+        });
+        sendResponse({status: 'OK'});
+    }
+});

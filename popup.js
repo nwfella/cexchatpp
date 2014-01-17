@@ -26,6 +26,12 @@ $(function() {
     $('input[name=blocked_message_action]').click(function() {
         var action = $(this).val();
         setMessageAction(action);
+        chrome.tabs.query({active: true, currentWindow: true}, function (tabs){
+            chrome.tabs.sendMessage(tabs[0].id, {
+                action: 'CHANGEBLOCKSTYLE',
+                style: action,
+            });
+        });
     });
 
     var $select = $('select[name=blocked_users]');
@@ -40,11 +46,19 @@ $(function() {
     $('#action_remove').click(function(e) {
         var $selectedUsers = $select.children('option:selected');
         var selectedUsers = _.map($selectedUsers, function(user) {
-            return $(user).val();
+            var value = $(user).val();
+            return value === ''? null : value;
         });
+        console.log(selectedUsers);
         unblockUsernames(selectedUsers);
         $selectedUsers.remove();
         $('#action_remove').attr('disabled', 'disabled');
+        chrome.tabs.query({active: true, currentWindow: true}, function (tabs){
+            chrome.tabs.sendMessage(tabs[0].id, {
+                action: 'UNBLOCKUSERS',
+                users: selectedUsers,
+            });
+        });
     });
 
 });

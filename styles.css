@@ -16,11 +16,8 @@
     color: rgb(211, 209, 207) !important;
 }
 
-.message-text {
-    cursor: pointer;
-}
-
 .message-text.collapsed {
-    display: none;
-    clear: both;
+    display: block;
+    height: 2px;
+    visibility: hidden;
 }
