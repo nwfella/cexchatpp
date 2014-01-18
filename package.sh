@@ -6,17 +6,17 @@ if [ -e $FILENAME ]; then
     rm $FILENAME
 fi
 
-zip $FILENAME\
-    bootstrap.min.css\
-    contentscript.js\
-    icon128.png\
-    icon16.png\
-    icon48.png\
-    jquery-1.10.2.min.js\
-    manifest.json\
-    popup.css\
-    popup.html\
-    popup.js\
-    README.md\
-    styles.css\
-    underscore-1.5.2.min.js
+zip --junk-paths $FILENAME \
+    src/bootstrap.min.css \
+    src/contentscript.js \
+    src/icon128.png \
+    src/icon16.png \
+    src/icon48.png \
+    src/jquery-1.10.2.min.js \
+    src/manifest.json \
+    src/popup.css \
+    src/popup.html \
+    src/popup.js \
+    src/styles.css \
+    src/underscore-1.5.2.min.js \
+    README.md
