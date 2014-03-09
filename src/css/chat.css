@@ -1,9 +1,13 @@
+.clickable,
 .allMsg .user {
     cursor: pointer;
 }
 
 .block-unblock-user,
-.toggle-message {
+.toggle-message,
+.spam-user,
+.friend-user,
+.add-remove-user {
     cursor: pointer;
     width: 11px;
     height: 11px;
@@ -20,4 +24,13 @@
     display: block;
     height: 2px;
     visibility: hidden;
+}
+
+span.time {
+    margin-left: 5px;
+}
+
+.report-user {
+    cursor: pointer;
+    margin-top: 2px;
 }

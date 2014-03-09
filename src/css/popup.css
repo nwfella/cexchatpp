@@ -1,0 +1,31 @@
+html,
+body {
+    width: 550px;
+}
+
+body {
+    padding: 10px 20px;
+}
+
+select[name="users_block"],
+select[name="users_spam"],
+select[name="users_friend"] {
+    margin-bottom: 15px;
+}
+
+button {
+    min-width: 100px;
+}
+
+#donate,
+#misc {
+    padding-bottom: 50px;
+}
+
+#donate {
+    padding-top: 20px;
+}
+
+#donate h4 {
+    margin-bottom: 30px;
+}

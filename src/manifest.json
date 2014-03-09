@@ -3,11 +3,11 @@
 
   "name": "CEXChat++",
   "description": "Adds extra features to CEX.io chat.",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "icons": {
-    "16": "icon16.png",
-    "48": "icon48.png",
-    "128": "icon128.png"
+    "16": "img/icon16.png",
+    "48": "img/icon48.png",
+    "128": "img/icon128.png"
   },
   "permissions": [
     "storage",
@@ -15,7 +15,7 @@
     "https://cex.io/*"
   ],
   "browser_action": {
-    "default_icon": "icon128.png",
+    "default_icon": "img/icon128.png",
     "default_popup": "popup.html"
   },
   "content_scripts": [
@@ -25,12 +25,22 @@
         "https://cex.io/*"
       ],
       "css": [
-        "styles.css"
+        "css/chat.css"
       ],
       "js": [
-        "jquery-1.10.2.min.js",
-        "underscore-1.5.2.min.js",
-        "contentscript.js"
+        "vendor/js/jquery-2.1.0.min.js",
+        "vendor/js/underscore-1.6.0.min.js",
+        "vendor/js/bootstrap-3.1.1.min.js",
+        "js/utils.js",
+        "js/emitter.js",
+        "js/message.js",
+        "js/messageinput.js",
+        "js/settings/base.js",
+        "js/settings/chrome.js",
+        "js/settings/firefox.js",
+        "js/userlist.js",
+        "js/controllers/chat.js",
+        "js/mains/chat.js"
       ]
     }
   ]

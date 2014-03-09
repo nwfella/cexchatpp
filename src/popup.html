@@ -4,36 +4,180 @@
     <meta charset="utf-8">
     <title>CEXChat++</title>
     <!-- Bootstrap core CSS -->
-    <link href="bootstrap.min.css" rel="stylesheet">
-    <link href="popup.css" rel="stylesheet">
+    <link href="vendor/css/bootstrap-3.1.1.min.css" rel="stylesheet">
+    <link href="vendor/css/bootstrap-theme-3.1.1.min.css" rel="stylesheet">
+    <link href="css/popup.css" rel="stylesheet">
   </head>
   <body>
     <div class="container">
-      <div class="row">
-        <h4>Blocked Users</h4>
-        <select multiple class="form-control" name="blocked_users"></select>
-        <button class="btn btn-default btn-block" id="action_remove" disabled="disabled">Remove</button>
+      <ul class="nav nav-pills">
+        <li class="active"><a href="#block" data-toggle="tab">Block</a></li>
+        <li><a href="#spam" data-toggle="tab">Spam</a></li>
+        <li><a href="#friends" data-toggle="tab">Friends</a></li>
+        <li class="pull-right"><a href="#donate" data-toggle="tab">Donate</a></li>
+        <li class="pull-right"><a href="#misc" data-toggle="tab">Misc</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="block">
+          <div class="row-fluid">
+            <h4>Blocked Users</h4>
+            <select multiple class="form-control" name="users_block"></select>
+            <button class="btn btn-default btn-block" id="action_remove_block" disabled="disabled">Remove</button>
+          </div>
+          <div class="row-fluid">
+            <h4>Block users that:</h4>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="autoadd_addresses_block"> Post wallet addresses
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="autoadd_shortened_links_block"> Post shortened links (i.e. goo.gl, bit.ly, etc)
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="autoadd_referral_links_block"> Post referral links (i.e. anywhere.com?r=blah)
+              </label>
+            </div>
+          </div>
+          <div class="row-fluid">
+            <h4>Action taken when blocking messages:</h4>
+            <div class="radio">
+              <label>
+                <input type="radio" name="message_action_block" value="do:hide">
+                Hide blocked user's messages.
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="message_action_block" value="do:collapse">
+                Collapse blocked user's messages.
+              </label>
+            </div>
+          </div>
+          <div class="row-fluid">
+            <h4>Misc blocked user settings:</h4>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="show_icon_block"> Show add/remove icon next to username
+              </label>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <h4>Action taken when blocking messages</h4>
-        <div class="radio">
-          <label>
-            <input type="radio" name="blocked_message_action" value="hide">
-            Hide blocked user's messages.
-          </label>
+        <div class="tab-pane" id="spam">
+          <div class="row-fluid">
+            <h4>Spam Users</h4>
+            <select multiple class="form-control" name="users_spam"></select>
+            <button class="btn btn-default btn-block" id="action_remove_spam" disabled="disabled">Remove</button>
+          </div>
+          <div class="row-fluid">
+            <h4>Flag users as spam that:</h4>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="autoadd_addresses_spam"> Post wallet addresses
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="autoadd_shortened_links_spam"> Post shortened links (i.e. goo.gl, bit.ly, etc)
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="autoadd_referral_links_spam"> Post referral links (i.e. anywhere.com?r=blah)
+              </label>
+            </div>
+          </div>
+          <div class="row-fluid">
+            <h4>Action taken when marking messages as spam:</h4>
+            <div class="radio">
+              <label>
+                <input type="radio" name="message_action_spam" value="do:hide">
+                Hide spam user's messages.
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="message_action_spam" value="do:collapse">
+                Collapse spam user's messages.
+              </label>
+            </div>
+          </div>
+          <div class="row-fluid">
+            <h4>Misc spam user settings:</h4>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="show_icon_spam"> Show add/remove icon next to username
+              </label>
+            </div>
+          </div>
         </div>
-        <div class="radio">
-          <label>
-            <input type="radio" name="blocked_message_action" value="dim">
-            Dim and collapse blocked user's messages.
-          </label>
+        <div class="tab-pane" id="friends">
+          <div class="row-fluid">
+            <h4>Friends</h4>
+            <select multiple class="form-control" name="users_friend"></select>
+            <button class="btn btn-default btn-block" id="action_remove_friend" disabled="disabled">Remove</button>
+          </div>
+          <div class="row-fluid">
+            <h4>Action taken when marking messages as from a friend:</h4>
+            <div class="radio">
+              <label>
+                <input type="radio" name="message_action_friend" value="do:hide">
+                Hide friend user's messages.
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="message_action_friend" value="do:collapse">
+                Collapse friend user's messages.
+              </label>
+            </div>
+          </div>
+          <div class="row-fluid">
+            <h4>Misc friends settings:</h4>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="show_icon_friends"> Show add/remove icon next to username
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="misc">
+          <div class="row-fluid">
+            <h4>Misc Settings</h4>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="show_icon_report"> Show report user icon next to timestamp
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="donate">
+          <div class="row-fluid">
+            <h4>Donate a voucher code to support development:</h4>
+            <form role="form">
+              <div class="input-group">
+                <input type="text" class="form-control" id="voucher" placeholder="Enter voucher code">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">Send!</button>
+                </span>
+              </div><!-- /input-group -->
+            </form>
+          </div>
         </div>
       </div>
     </div> <!-- /container -->
-    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="underscore-1.5.2.min.js"></script>
-    <script type="text/javascript" src="contentscript.js"></script>
-    <script type="text/javascript" src="popup.js"></script>
+    <script type="text/javascript" src="vendor/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="vendor/js/bootstrap-3.1.1.min.js"></script>
+    <script type="text/javascript" src="vendor/js/underscore-1.6.0.min.js"></script>
+    <script type="text/javascript" src="js/emitter.js"></script>
+    <script type="text/javascript" src="js/settings/base.js"></script>
+    <script type="text/javascript" src="js/settings/chrome.js"></script>
+    <script type="text/javascript" src="js/settings/firefox.js"></script>
+    <script type="text/javascript" src="js/userlist.js"></script>
+    <script type="text/javascript" src="js/controllers/popup.js"></script>
+    <script type="text/javascript" src="js/mains/popup.js"></script>
   </body>
 </html>

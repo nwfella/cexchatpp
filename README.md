@@ -8,4 +8,7 @@ Allows for blocking and toggling messages as well as add various helper features
 
 ## Developer Donation Addresses:
 
-* [tekknik](https://coinbase.com/checkouts/17JWvbngsGEWJufKKFbSKDUGScuJ9ECMYo): 17JWvbngsGEWJufKKFbSKDUGScuJ9ECMYo
+* tekknik:
+    * bitcoin: 17JWvbngsGEWJufKKFbSKDUGScuJ9ECMYo
+    * devcoin: 1G745mZZ5kgKtmEb4PKGXWrMz3czyQNe6G
+
