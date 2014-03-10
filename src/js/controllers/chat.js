@@ -14,7 +14,10 @@ _.extend(ChatController.prototype, {
     if ($messages.length <= this.lastLength) return;
     this.lastLength = $messages.length;
 
-    $messages = Message.GetMessagesWithoutButtons($messages);
+    $messages = Message.GetUnrwappedMessages($messages);
     Message.SetupMessages($messages, this.settings);
+  },
+  reload: function() {
+    Message.RefreshMessages(this.settings);
   },
 });

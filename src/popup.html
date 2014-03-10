@@ -14,7 +14,6 @@
         <li class="active"><a href="#block" data-toggle="tab">Block</a></li>
         <li><a href="#spam" data-toggle="tab">Spam</a></li>
         <li><a href="#friends" data-toggle="tab">Friends</a></li>
-        <li class="pull-right"><a href="#donate" data-toggle="tab">Donate</a></li>
         <li class="pull-right"><a href="#misc" data-toggle="tab">Misc</a></li>
       </ul>
       <div class="tab-content">
@@ -56,6 +55,16 @@
                 Collapse blocked user's messages.
               </label>
             </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="message_action_block" value="change:color:username">
+                Change username color.
+              </label>
+            </div>
+          </div>
+          <div class="row-fluid">
+            <h4>When changing username color use:</h4>
+            <input type="text" class="form-control" name="color_username_block">
           </div>
           <div class="row-fluid">
             <h4>Misc blocked user settings:</h4>
@@ -104,6 +113,16 @@
                 Collapse spam user's messages.
               </label>
             </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="message_action_spam" value="change:color:username">
+                Change username color.
+              </label>
+            </div>
+          </div>
+          <div class="row-fluid">
+            <h4>When changing username color use:</h4>
+            <input type="text" class="form-control" name="color_username_spam">
           </div>
           <div class="row-fluid">
             <h4>Misc spam user settings:</h4>
@@ -117,23 +136,21 @@
         <div class="tab-pane" id="friends">
           <div class="row-fluid">
             <h4>Friends</h4>
-            <select multiple class="form-control" name="users_friend"></select>
-            <button class="btn btn-default btn-block" id="action_remove_friend" disabled="disabled">Remove</button>
+            <select multiple class="form-control" name="users_friends"></select>
+            <button class="btn btn-default btn-block" id="action_remove_friends" disabled="disabled">Remove</button>
           </div>
           <div class="row-fluid">
             <h4>Action taken when marking messages as from a friend:</h4>
-            <div class="radio">
+            <div class="checkbox">
               <label>
-                <input type="radio" name="message_action_friend" value="do:hide">
-                Hide friend user's messages.
+                <input type="checkbox" name="message_action_friends" value="change:color:username">
+                Change username color.
               </label>
             </div>
-            <div class="radio">
-              <label>
-                <input type="radio" name="message_action_friend" value="do:collapse">
-                Collapse friend user's messages.
-              </label>
-            </div>
+          </div>
+          <div class="row-fluid">
+            <h4>When changing username color use:</h4>
+            <input type="text" class="form-control" name="color_username_friends">
           </div>
           <div class="row-fluid">
             <h4>Misc friends settings:</h4>
@@ -146,25 +163,16 @@
         </div>
         <div class="tab-pane" id="misc">
           <div class="row-fluid">
-            <h4>Misc Settings</h4>
+            <h4>Other buttons</h4>
             <div class="checkbox">
               <label>
                 <input type="checkbox" name="show_icon_report"> Show report user icon next to timestamp
               </label>
             </div>
           </div>
-        </div>
-        <div class="tab-pane" id="donate">
           <div class="row-fluid">
-            <h4>Donate a voucher code to support development:</h4>
-            <form role="form">
-              <div class="input-group">
-                <input type="text" class="form-control" id="voucher" placeholder="Enter voucher code">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">Send!</button>
-                </span>
-              </div><!-- /input-group -->
-            </form>
+            <h4>Start over</h4>
+            <button type="button" class="btn btn-block btn-danger" id="action_clear_settings">Clear Settings</button>
           </div>
         </div>
       </div>
@@ -172,7 +180,10 @@
     <script type="text/javascript" src="vendor/js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="vendor/js/bootstrap-3.1.1.min.js"></script>
     <script type="text/javascript" src="vendor/js/underscore-1.6.0.min.js"></script>
-    <script type="text/javascript" src="js/emitter.js"></script>
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/emitters/base.js"></script>
+    <script type="text/javascript" src="js/emitters/chrome.js"></script>
+    <script type="text/javascript" src="js/emitters/firefox.js"></script>
     <script type="text/javascript" src="js/settings/base.js"></script>
     <script type="text/javascript" src="js/settings/chrome.js"></script>
     <script type="text/javascript" src="js/settings/firefox.js"></script>

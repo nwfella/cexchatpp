@@ -9,7 +9,7 @@ body {
 
 select[name="users_block"],
 select[name="users_spam"],
-select[name="users_friend"] {
+select[name="users_friends"] {
     margin-bottom: 15px;
 }
 
@@ -17,13 +17,13 @@ button {
     min-width: 100px;
 }
 
-#donate,
 #misc {
-    padding-bottom: 50px;
+    padding-bottom: 30px;
 }
 
 #donate {
     padding-top: 20px;
+    padding-bottom: 50px;
 }
 
 #donate h4 {

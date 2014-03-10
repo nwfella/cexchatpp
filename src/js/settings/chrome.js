@@ -3,27 +3,40 @@ var ChromeSettings = function(options) {
 }
 
 _.extend(ChromeSettings.prototype, BaseSettings.prototype);
+_.extend(ChromeSettings.prototype, ChromeEmitter.prototype);
 _.extend(ChromeSettings.prototype, {
-  load: function() {
+  initialize: function(options) {
+    BaseSettings.prototype.initialize.apply(this, arguments);
+    ChromeEmitter.prototype.initialize.apply(this, arguments);
+
+    var that = this;
+    this.on('save', function(data) {
+      that.onSave(data);
+    });
+  },
+  load: function(signal) {
     var that = this;
     chrome.storage.sync.get(null, function(values) {
-      that.loadValues(values);
+      that.loadValues(values, signal || 'load');
     });
   },
   save: function() {
-    var saveData = {};
-    var that = this;
-    _.each(this.data, function(value, key) {
-      _.each(value, function(subValue, subKey) {
-        var storeKey = that.makeListAndSubsection(key, subKey);
-        saveData[storeKey] = subValue;
-      });
-    });
+    var saveData = this.makeSaveData();
 
     chrome.storage.sync.clear();
     chrome.storage.sync.set(saveData);
 
     // NOTE: chrome storage set is async
-    this.emit('save');
+    this.emit('save', saveData);
+  },
+  onMessage: function(message) {
+    if (message.action === 'settings:save')
+      this.load('reload');
+  },
+  onSave: function(data) {
+    this.sendMessage({
+      action: 'settings:save',
+      data: data,
+    });
   },
 });

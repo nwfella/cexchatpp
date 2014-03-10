@@ -21,7 +21,7 @@ _.extend(PopupController.prototype, {
       var $selectedUsers = $select.children('option:selected');
       var selectedUsers = _.map($selectedUsers, function(user) {
         var value = $(user).val();
-        return value === ''? null : value;
+        return value === '' ? null : value;
       });
 
       that.removeUsers(list, selectedUsers);
@@ -30,8 +30,9 @@ _.extend(PopupController.prototype, {
     });
   },
   initActionSettings: function(list) {
-    var actions = this.settings.getList(list).getActions();
-    var $inputs = $('input[name="message_action_' + list + '"]');
+    list = this.settings.getList(list)
+    var actions = list.getActions();
+    var $inputs = $('input[name="message_action_' + list.name + '"]');
 
     var translate = function($input) {
       return $input.attr('name').split('message_action_')[1];
@@ -39,11 +40,19 @@ _.extend(PopupController.prototype, {
 
     $inputs.each(function(index, input) {
       var $input = $(input);
-      var list = translate($input);
       var action = $input.attr('value');
 
-      if (_.contains(actions, action))
+      if (_.contains(actions, action)) {
         $input.attr('checked', 'checked');
+      }
+
+      $input.change(function() {
+        if ($input.is(':checked'))
+          list.addAction($input.attr('value'));
+        else
+          list.removeAction($input.attr('value'));
+      });
+
     });
   },
   initAutoAdd: function(list) {
@@ -71,11 +80,31 @@ _.extend(PopupController.prototype, {
     if (this.settings.getList(list).getShowIcon(true))
       $element.attr('checked', 'checked');
 
-    var that = this;
+    var userList = this.settings.getList(list);
+
     $element.change(function() {
-      that.settings.getList(list).setShowIcon($element.is(':checked'));
+      userList.setShowIcon($element.is(':checked'));
     });
 
+    $element = $('input[type="text"][name="color_username_' + list + '"]');
+    $element.val(userList.getUsernameColor());
+
+    $element.blur(function() {
+      var val = $element.val();
+      userList.setUsernameColor(val);
+    });
+  },
+  initAll: function() {
+    var lists = this.settings.getLists();
+    var that = this;
+    _.each(lists, function(list) {
+      that.initSection(list);
+    });
+
+    $("#action_clear_settings").click(function() {
+      console.log('clearing settings');
+      chrome.storage.sync.clear();
+    });
   },
   initSection: function(list) {
     var $select = $('select[name=users_' + list + ']');

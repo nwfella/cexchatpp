@@ -5,10 +5,7 @@ $(function() {
   });
 
   settings.on('load', function(data, obj) {
-    var lists = settings.getLists();
-    _.each(lists, function(list) {
-      controller.initSection(list);
-    });
+    controller.initAll();
   });
 
   settings.load();

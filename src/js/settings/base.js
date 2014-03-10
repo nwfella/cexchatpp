@@ -10,6 +10,8 @@ BaseSettings.AUTOADD_ADDRESSES = 'addresses';
 BaseSettings.AUTOADD_SHORTENED_LINKS = 'shortened_links';
 BaseSettings.AUTOADD_REFERRAL_LINKS = 'referral_links';
 
+BaseSettings.CHANGE_COLOR_USERNAME = 'change:color:username';
+
 BaseSettings.ACTION_COLLAPSE = 'do:collapse';
 BaseSettings.ACTION_HIDE = 'do:hide';
 
@@ -17,16 +19,18 @@ _.extend(BaseSettings.prototype, Emitter.prototype);
 _.extend(BaseSettings.prototype, {
   defaults: {
     block: {
-      actions: [BaseSettings.ACTION_HIDE],
+      actions: [BaseSettings.ACTION_HIDE, BaseSettings.CHANGE_COLOR_USERNAME],
       autoadds: [],
       showicon: true,
       users: [],
+      colorusername: 'rgb(44,176,176)',
     },
     friends: {
       actions: [],
       autoadds: [],
       showicon: true,
       users: [],
+      colorusername: 'rgb(144,238,144)',
     },
     spam: {
       actions: [BaseSettings.ACTION_COLLAPSE],
@@ -37,6 +41,7 @@ _.extend(BaseSettings.prototype, {
       ],
       showicon: true,
       users: [],
+      colorusername: 'rgb(255,165,0)',
     },
     adduser: {
       showicon: false,
@@ -81,7 +86,7 @@ _.extend(BaseSettings.prototype, {
   makeListAndSubsection: function(key, subsection) {
     return key + '_' + subsection;
   },
-  loadValues: function(values) {
+  loadValues: function(values, signal) {
     var that = this;
     var keys = _.keys(values);
     _.each(keys, function(key) {
@@ -119,8 +124,17 @@ _.extend(BaseSettings.prototype, {
         that.data[list][subsection] = value;
     });
     this.data = _.extend({}, this.defaults, this.data);
-    this.emit('load', this.data, this);
+    this.emit(signal || 'load', this.data, this);
   },
-  load: function() {},
-  save: function() {},
+  makeSaveData: function() {
+    var that = this;
+    var saveData = {}
+    _.each(this.data, function(value, key) {
+      _.each(value, function(subValue, subKey) {
+        var storeKey = that.makeListAndSubsection(key, subKey);
+        saveData[storeKey] = subValue;
+      });
+    });
+    return saveData;
+  },
 });

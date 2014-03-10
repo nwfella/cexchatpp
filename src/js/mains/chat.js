@@ -12,5 +12,9 @@ $(function() {
     });
   });
 
+  settings.on('reload', function() {
+    controller.reload();
+  });
+
   settings.load();
 });

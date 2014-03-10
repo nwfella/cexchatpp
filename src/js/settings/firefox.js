@@ -3,6 +3,7 @@ var FirefoxSettings = function(options) {
 }
 
 _.extend(FirefoxSettings.prototype, BaseSettings.prototype);
+_.extend(FirefoxSettings.prototype, FirefoxEmitter.prototype);
 _.extend(FirefoxSettings.prototype, {
   load: function() {},
   save: function() {
