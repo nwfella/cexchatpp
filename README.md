@@ -9,6 +9,10 @@ Allows for blocking and toggling messages as well as add various helper features
 ## Developer Donation Addresses:
 
 * tekknik:
-    * bitcoin: 17JWvbngsGEWJufKKFbSKDUGScuJ9ECMYo
+    * bitcoin: 1HJacXwXac9UsZ5ttF2Yj77WmfuvAYis1e
+    * litecoin: LWH3T5nbKDNNzChfG7U35dnMFKgn1fWybd
+    * ixcoin: xoRHnkEnUWWr5E3oYDWfpYYgRuzVQJuXKb
     * devcoin: 1G745mZZ5kgKtmEb4PKGXWrMz3czyQNe6G
+    * dogecoin: DNFzai4QJ56BhUC9bfyqvbNQrbiYbSWrn2
+    * namecoin: N5oocVpC9HGRxQVTeo8V9wPT9t6rU2o8o1
 
