@@ -7,6 +7,7 @@ $(function() {
   });
 
   settings.on('load', function() {
+    controller.setUserCss(settings);
     $(document).bind('DOMNodeInserted',function() {
       controller.cycle();
     });

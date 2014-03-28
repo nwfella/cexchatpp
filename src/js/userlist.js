@@ -17,6 +17,12 @@ UserList.GetListsForUser = function(user, settings) {
   return lists;
 }
 
+UserList.GetLists = function(settings) {
+  return _.map(settings.getLists(), function(listName) {
+    return settings.getList(listName);
+  });
+}
+
 UserList.ACTION_COLLAPSE = BaseSettings.ACTION_COLLAPSE;
 UserList.ACTION_HIDE = BaseSettings.ACTION_HIDE;
 UserList.ACTIONS_DEFAULT = [UserList.ACTION_HIDE];
@@ -96,11 +102,11 @@ _.extend(UserList.prototype, {
   setShowIcon: function(value, save) {
     this.setSubsectionValue('showicon', value, save);
   },
-  getUsernameColor: function() {
-    return this.getSubsectionValue('colorusername');
+  getCssClass: function() {
+    return this.getSubsectionValue('cssclass');
   },
-  setUsernameColor: function(value, save) {
-    this.setSubsectionValue('colorusername', value, save);
+  setCssClass: function(value, save) {
+    this.setSubsectionValue('cssclass', value, save);
   },
   getUsers: function() {
     return this.getSubsectionValue('users');

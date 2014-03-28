@@ -18,6 +18,11 @@ _.extend(ChatController.prototype, {
     Message.SetupMessages($messages, this.settings);
   },
   reload: function() {
+    this.setUserCss(this.settings);
     Message.RefreshMessages(this.settings);
+  },
+  setUserCss: function(settings) {
+    $('style[data-owner="ccpp"]').remove();
+    $('head').append('<style type="text/css" data-owner="ccpp">' + settings.data.css.value + '</style>');
   },
 });

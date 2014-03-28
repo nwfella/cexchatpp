@@ -6,6 +6,10 @@ Message.GetMessages = function() {
   return $('div.msgWindow .allMsg');
 }
 
+Message.GetMessagesForUser = function(user) {
+  return $('div.msgWindow .allMsg .user:contains(' + user + ')').parent();
+}
+
 Message.GetUnrwappedMessages = function($messages) {
   return ($messages || Message.GetMessages()).not(':has(span.message-text)');
 }
@@ -24,8 +28,8 @@ Message.SetupMessages = function($elements, settings) {
   });
 }
 
-Message.RefreshMessages = function(settings) {
-  var messages = Message.TranslateMessages(Message.GetMessages(), settings);
+Message.RefreshMessages = function(settings, $messages) {
+  var messages = Message.TranslateMessages($messages || Message.GetMessages(), settings);
   _.each(messages, function(message) {
     message.refresh();
   });
@@ -93,9 +97,12 @@ _.extend(Message.prototype, {
       var username = that.username();
       var reverse = userList.hasUser(username);
 
-      // that.processActions([userList], reverse);
       userList.toggleUser(username);
-      Message.RefreshMessages(that.settings);
+
+      _.each(Message.GetMessagesForUser(username), function(raw) {
+        var message = Message.TranslateMessage($(raw));
+        message.processActions([userList], reverse);
+      });
     }
 
     this.addButton(options, callback);
@@ -208,10 +215,9 @@ _.extend(Message.prototype, {
   },
   setNameClickHandler: function() {
     var that = this;
-    this.$element.children('span.user').click(function(e) {
+    this.$username().click(function(e) {
       var username = that.username();
-      MessageInput.AppendInputText('@' + username + ' ');
-      MessageInput.FocusInputAndMoveToEnd();
+      MessageInput.AppendAndMoveToEnd('@' + username + ' ');
     });
   },
   refresh: function() {
@@ -233,10 +239,11 @@ _.extend(Message.prototype, {
     if (!this.settings.data.toggle.showicon)
       this.removeToggleButton();
 
+    // console.log('refresh');
     this.processActions(undefined, true);
     this.processActions(undefined);
   },
-  setup: function(refresh) {
+  setup: function() {
     if (this.settings.data.adduser.showicon)
       this.addAddUserButton();
 
@@ -259,6 +266,8 @@ _.extend(Message.prototype, {
     this.wrap();
 
     this.processActions();
+    this.processAutoAdds();
+
   },
   processActions: function(lists, reverse) {
     var username = this.username();
@@ -301,15 +310,46 @@ _.extend(Message.prototype, {
       else
         this.collapse();
 
-    else if (action === BaseSettings.CHANGE_COLOR_USERNAME) {
+    else if (action === BaseSettings.ADD_CSS_CLASS) {
       if (reverse)
-        this.clearUsernameColor();
+        this.clearCssClass(list.getCssClass());
       else
-        this.setUsernameColor(list.getUsernameColor());
+        this.setCssClass(list.getCssClass());
     }
+
+  },
+  processAutoAdds: function() {
+    var lists = UserList.GetLists(this.settings);
+    var that = this;
+    _.each(lists, function(list) {
+      that.processAutoAddsForList(list);
+    });
+  },
+  processAutoAddsForList: function(list) {
+    var autoAdds = list.getAutoAdds();
+    var username = this.username();
+
+    if (_.contains(autoAdds, BaseSettings.AUTOADD_ADDRESSES) && this.hasAddress()) {
+      list.addUser(username);
+      this.processActions([list]);
+    }
+
+    if (_.contains(autoAdds, BaseSettings.AUTOADD_REFERRAL_LINKS) && this.hasReferralLink()) {
+      list.addUser(username);
+      this.processActions([list]);
+    }
+
+    if (_.contains(autoAdds, BaseSettings.AUTOADD_SHORTENED_LINKS) && this.hasShortenedLink()) {
+      list.addUser(username);
+      this.processActions([list]);
+    }
+
   },
   $text: function() {
     return this.$element.children('span.message-text');
+  },
+  text: function() {
+    return this.$text().text();
   },
   collapse: function() {
     this.$text().addClass('collapsed');
@@ -341,23 +381,23 @@ _.extend(Message.prototype, {
     else
       this.hide();
   },
+  doRegexSearch: function(regex) {
+    return this.text().search(regex) !== -1;
+  },
   hasAddress: function() {
-    return this.message().search(/\w{27,34}/) !== -1;
+    return this.doRegexSearch(/\w{27,34}/);
   },
   hasReferralLink: function() {
-    return this.message().search(/\/\?r=|cex\.io\/r\/|\?refid=/) !== -1;
+    return this.doRegexSearch(/\/\?r=|cex\.io\/r\/|\?refid=/);
   },
   hasShortenedLink: function() {
-    return this.message().search(/bit\.ly|goo\.gl|tinyurl\.com|tr\.im|ow\.ly|is\.gd|rdlnk\.co|bit\.do|mcaf\.ee|x\.co|dft\.ba|dyi\.li|v\.gd|gg\.gg|rdd\.me|shorten\.me|tiny\.tw|u\.to|shoutkey\.com|sze\.me|smplurl\.com|slink\.co|zbbx\.me|adf\.ly|b54\.in|adcrun\.ch|cpv\.li|cro\.pm|ukl\.me\.uk/) !== -1;
+    return this.doRegexSearch(/bit\.ly|goo\.gl|tinyurl\.com|tr\.im|ow\.ly|is\.gd|rdlnk\.co|bit\.do|mcaf\.ee|x\.co|dft\.ba|dyi\.li|v\.gd|gg\.gg|rdd\.me|shorten\.me|tiny\.tw|u\.to|shoutkey\.com|sze\.me|smplurl\.com|slink\.co|zbbx\.me|adf\.ly|b54\.in|adcrun\.ch|cpv\.li|cro\.pm|ukl\.me\.uk/);
   },
-  clearUsernameColor: function() {
-    var $username = this.$username();
-    // $username.css('color', '');
-    $username.removeAttr('style');
-    // console.log('clearUsernameColor', $username.css('color'));
+  clearCssClass: function(klass) {
+    this.$element.removeClass(klass);
   },
-  setUsernameColor: function(color) {
-    this.$username().css('color', color);
+  setCssClass: function(klass) {
+    this.$element.addClass(klass);
   },
   $username: function() {
     return this.$element.children('span.user');
@@ -366,10 +406,27 @@ _.extend(Message.prototype, {
     return this.$username().text().replace(":", "").trim();
   },
   wrap: function() {
-    var $messageElement = $('<span>')
-      .addClass('message-text');
+    var $messageElement = $('<span class="message-text"></span>');
     var $contents = this.$element.contents();
-    var offset = this.buttonCount + 2;
-    $contents.slice(offset, $contents.length).wrapAll($messageElement);
+    var offset = this.buttonCount + 3;
+    var $messageText = $contents.slice(offset, $contents.length);
+    var messageText = $messageText.text();
+    $messageText.wrapAll($messageElement);
+
+    var mentions = _.uniq(messageText.match(/(@[\w\d]+)/g) || []);
+    var template = _.template('<span class="user"><%= user %></span>');
+    if (mentions.length !== 0) {
+      _.each(mentions, function(mention) {
+        var $mention = template({user: mention});
+        messageText = messageText.replace(mention, $mention);
+      });
+
+      var $element = this.$element.children('.message-text');
+      $element.html(messageText);
+      $element.children('.user').click(function() {
+        var username = $(this).text();
+        MessageInput.AppendAndMoveToEnd(username + ' ');
+      });
+    }
   },
 });

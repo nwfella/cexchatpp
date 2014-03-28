@@ -26,6 +26,11 @@ MessageInput.AppendInputText = function(text, $input) {
     MessageInput.SetInputText(value, $input);
 }
 
+MessageInput.AppendAndMoveToEnd = function(text, $input) {
+    MessageInput.AppendInputText(text);
+    MessageInput.FocusInputAndMoveToEnd();
+}
+
 /*
  * http://stackoverflow.com/questions/6003300/how-to-place-cursor-at-end-of-text-in-textarea-when-tabbed-into
  */

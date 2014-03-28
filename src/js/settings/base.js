@@ -10,7 +10,7 @@ BaseSettings.AUTOADD_ADDRESSES = 'addresses';
 BaseSettings.AUTOADD_SHORTENED_LINKS = 'shortened_links';
 BaseSettings.AUTOADD_REFERRAL_LINKS = 'referral_links';
 
-BaseSettings.CHANGE_COLOR_USERNAME = 'change:color:username';
+BaseSettings.ADD_CSS_CLASS = 'css:username';
 
 BaseSettings.ACTION_COLLAPSE = 'do:collapse';
 BaseSettings.ACTION_HIDE = 'do:hide';
@@ -19,21 +19,25 @@ _.extend(BaseSettings.prototype, Emitter.prototype);
 _.extend(BaseSettings.prototype, {
   defaults: {
     block: {
-      actions: [BaseSettings.ACTION_HIDE, BaseSettings.CHANGE_COLOR_USERNAME],
+      actions: [BaseSettings.ACTION_HIDE, BaseSettings.ADD_CSS_CLASS],
       autoadds: [],
       showicon: true,
-      users: [],
-      colorusername: 'rgb(44,176,176)',
+      users: [
+        'quinnendu1',
+        'hannibalatthegate',
+        'ilaydaine',
+      ],
+      cssclass: 'block',
     },
     friends: {
-      actions: [],
+      actions: [BaseSettings.ADD_CSS_CLASS],
       autoadds: [],
       showicon: true,
       users: [],
-      colorusername: 'rgb(144,238,144)',
+      cssclass: 'friends',
     },
     spam: {
-      actions: [BaseSettings.ACTION_COLLAPSE],
+      actions: [BaseSettings.ACTION_COLLAPSE, BaseSettings.ADD_CSS_CLASS],
       autoadds: [
         BaseSettings.AUTOADD_ADDRESSES,
         BaseSettings.AUTOADD_SHORTENED_LINKS,
@@ -41,7 +45,7 @@ _.extend(BaseSettings.prototype, {
       ],
       showicon: true,
       users: [],
-      colorusername: 'rgb(255,165,0)',
+      cssclass: 'spam',
     },
     adduser: {
       showicon: false,
@@ -52,6 +56,20 @@ _.extend(BaseSettings.prototype, {
     toggle: {
       showicon: true,
     },
+    css: {
+      value: '\
+.friends span.user {\n\
+  color: rgb(144, 238, 144)\n\
+}\n\
+\n\
+.spam span.user {\n\
+  color: rgb(255, 165, 0)\n\
+}\n\
+\n\
+.blocked span.user {\n\
+  color: rgb(44, 176, 176);\n\
+}\n',
+    }
   },
   initialize: function(options) {
     Emitter.prototype.initialize.apply(this, arguments);

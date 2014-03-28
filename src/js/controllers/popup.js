@@ -86,8 +86,8 @@ _.extend(PopupController.prototype, {
       userList.setShowIcon($element.is(':checked'));
     });
 
-    $element = $('input[type="text"][name="color_username_' + list + '"]');
-    $element.val(userList.getUsernameColor());
+    $element = $('input[type="text"][name="css_class_' + list + '"]');
+    $element.val(userList.getCssClass());
 
     $element.blur(function() {
       var val = $element.val();
@@ -99,6 +99,19 @@ _.extend(PopupController.prototype, {
     var that = this;
     _.each(lists, function(list) {
       that.initSection(list);
+    });
+
+    $editor = $('textarea[name="css"]');
+    console.log(this.settings.data.css.value);
+    $editor.val(this.settings.data.css.value);
+    var editor = CodeMirror.fromTextArea($editor[0], {
+      autofocus: true,
+      lineNumbers: true,
+      mode: 'css',
+    });
+
+    editor.on('change', function() {
+      that.settings.data.css = editor.getValue();
     });
 
     $("#action_clear_settings").click(function() {
