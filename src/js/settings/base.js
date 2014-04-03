@@ -44,7 +44,10 @@ _.extend(BaseSettings.prototype, {
         BaseSettings.AUTOADD_REFERRAL_LINKS,
       ],
       showicon: true,
-      users: [],
+      users: [
+        'RLRibeck',
+        'mariconada',
+      ],
       cssclass: 'spam',
     },
     adduser: {
