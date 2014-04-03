@@ -47,6 +47,7 @@ _.extend(BaseSettings.prototype, {
       users: [
         'RLRibeck',
         'mariconada',
+        'thesainttttt',
       ],
       cssclass: 'spam',
     },
