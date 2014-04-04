@@ -48,6 +48,7 @@ _.extend(BaseSettings.prototype, {
         'RLRibeck',
         'mariconada',
         'thesainttttt',
+        'albertabitcoin',
       ],
       cssclass: 'spam',
     },
