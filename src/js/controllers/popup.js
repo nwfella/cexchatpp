@@ -94,6 +94,32 @@ _.extend(PopupController.prototype, {
       userList.setUsernameColor(val);
     });
   },
+  initCss: function() {
+    var $editor = $('textarea[name="css"]');
+    console.log(this.settings.data.css.value);
+    $editor.val(this.settings.data.css.value);
+    var editor = CodeMirror.fromTextArea($editor[0], {
+      autofocus: true,
+      lineNumbers: true,
+      mode: 'css',
+      theme: 'ambiance',
+    });
+
+    var that = this;
+    var setCssSettings = function() {
+      that.settings.data.css.value = editor.getValue();
+      that.settings.save();
+    }
+
+    editor.on('change', function() {
+      setCssSettings();
+    });
+
+    $('#action_apply_css').click(function() {
+      setCssSettings();
+    });
+
+  },
   initAll: function() {
     var lists = this.settings.getLists();
     var that = this;
@@ -101,18 +127,7 @@ _.extend(PopupController.prototype, {
       that.initSection(list);
     });
 
-    $editor = $('textarea[name="css"]');
-    console.log(this.settings.data.css.value);
-    $editor.val(this.settings.data.css.value);
-    var editor = CodeMirror.fromTextArea($editor[0], {
-      autofocus: true,
-      lineNumbers: true,
-      mode: 'css',
-    });
-
-    editor.on('change', function() {
-      that.settings.data.css = editor.getValue();
-    });
+    this.initCss();
 
     $("#action_clear_settings").click(function() {
       console.log('clearing settings');

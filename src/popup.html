@@ -7,6 +7,7 @@
     <link href="vendor/css/bootstrap-3.1.1.min.css" rel="stylesheet">
     <link href="vendor/css/bootstrap-theme-3.1.1.min.css" rel="stylesheet">
     <link href="vendor/css/codemirror.css" rel="stylesheet">
+    <link href="vendor/css/codemirror-ambiance.css" rel="stylesheet">
     <link href="css/popup.css" rel="stylesheet">
   </head>
   <body>
@@ -178,9 +179,12 @@
           </div>
         </div>
         <div class="tab-pane" id="css">
-          <div class="row-fluid">
+          <div class="row-fluid editor-row">
             <h4>CSS used for styling:</h4>
             <textarea class="form-control" name="css"></textarea>
+          </div>
+          <div class="row-fluid">
+            <button id="action_apply_css" class="btn btn-default btn-block">Apply</button>
           </div>
         </div>
       </div>
