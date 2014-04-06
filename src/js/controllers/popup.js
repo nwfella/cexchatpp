@@ -96,7 +96,6 @@ _.extend(PopupController.prototype, {
   },
   initCss: function() {
     var $editor = $('textarea[name="css"]');
-    console.log(this.settings.data.css.value);
     $editor.val(this.settings.data.css.value);
     var editor = CodeMirror.fromTextArea($editor[0], {
       autofocus: true,
@@ -130,7 +129,6 @@ _.extend(PopupController.prototype, {
     this.initCss();
 
     $("#action_clear_settings").click(function() {
-      console.log('clearing settings');
       chrome.storage.sync.clear();
     });
   },

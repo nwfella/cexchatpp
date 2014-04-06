@@ -250,7 +250,6 @@ _.extend(Message.prototype, {
     if (!this.settings.data.toggle.showicon)
       this.removeToggleButton();
 
-    // console.log('refresh');
     this.processActions(undefined, true);
     this.processActions(undefined);
   },
