@@ -64,11 +64,11 @@ _.extend(BaseSettings.prototype, {
     css: {
       value: '\
 .friends span.user {\n\
-  color: rgb(144, 238, 144)\n\
+  color: rgb(144, 238, 144);\n\
 }\n\
 \n\
 .spam span.user {\n\
-  color: rgb(255, 165, 0)\n\
+  color: rgb(255, 165, 0);\n\
 }\n\
 \n\
 .blocked span.user {\n\

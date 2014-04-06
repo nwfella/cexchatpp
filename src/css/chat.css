@@ -14,15 +14,13 @@
     margin-right: 5px;
 }
 
-.blocked .user,
-.blocked .block-unblock-user,
-.blocked .toggle-message {
-    color: rgb(211, 209, 207) !important;
+.report-user {
+    cursor: pointer;
+    margin-top: 2px;
 }
 
 .message-text.collapsed {
-    display: block;
-    height: 2px;
+    display: none;
     visibility: hidden;
 }
 
@@ -30,7 +28,11 @@ span.time {
     margin-left: 5px;
 }
 
-.report-user {
-    cursor: pointer;
-    margin-top: 2px;
+#report-user-modal input[name="subject"],
+#report-user-modal textarea[name="body"] {
+    width: 100%;
+}
+
+#report-user-modal textarea[name="body"] {
+    height: 150px;
 }

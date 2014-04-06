@@ -160,10 +160,21 @@ _.extend(Message.prototype, {
       },
     }
 
+    var that = this;
     var callback = function(e) {
-      var modalBody = '<form class="form-horizontal" role="form">';
-      modalBody += '<div class="form-group"><input type="text" class="form-control" name="subject"></div>';
-      modalBody += '<div class="form-group"><textarea class="form-control" name="body" rows="7"></textarea></div></form>';
+      var formTemplate = _.template('<form class="form-horizontal"><%= value %></form>');
+      var subjectTemplate = _.template('<div class="form-group"><input type="text" class="form-control" name="subject" value="<%= value %>"></div>');
+      var bodyTemplate = _.template('<div class="form-group"><textarea class="form-control" name="body"><%= value %></textarea></div>');
+
+      var body = that.text();
+      var modalBody = formTemplate({
+        value: subjectTemplate({
+          value: 'Report user: ' + that.username(),
+        }) + bodyTemplate({
+          value: body,
+        }),
+      });
+
       var $modal = Utils.AddModal({
         id: 'report-user-modal',
         body: modalBody,
