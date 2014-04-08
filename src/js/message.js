@@ -329,6 +329,7 @@ _.extend(Message.prototype, {
 
   },
   processAutoAdds: function() {
+    if (UserList.GetListsForUser(this.username(), this.settings).length !== 0) return;
     var lists = UserList.GetLists(this.settings);
     var that = this;
     _.each(lists, function(list) {
