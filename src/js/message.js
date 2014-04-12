@@ -166,10 +166,10 @@ _.extend(Message.prototype, {
       var subjectTemplate = _.template('<div class="form-group"><input type="text" class="form-control" name="subject" value="<%= value %>"></div>');
       var bodyTemplate = _.template('<div class="form-group"><textarea class="form-control" name="body"><%= value %></textarea></div>');
 
-      var body = that.text();
+      var body = 'Reporting the user for the following message(s) / reason(s): \n\n\t' + that.text();
       var modalBody = formTemplate({
         value: subjectTemplate({
-          value: 'Report user: ' + that.username(),
+          value: 'Reporting user: ' + that.username(),
         }) + bodyTemplate({
           value: body,
         }),
@@ -396,10 +396,10 @@ _.extend(Message.prototype, {
     return this.text().search(regex) !== -1;
   },
   hasAddress: function() {
-    return this.doRegexSearch(/\w{27,34}/);
+    return this.doRegexSearch(/[0-9a-zA-Z]{27,34}/);
   },
   hasReferralLink: function() {
-    return this.doRegexSearch(/\/\?r=|cex\.io\/r\/|\?refid=/);
+    return this.doRegexSearch(/\/\?r=|cex\.io\/r\/|\?refid=|\?ref=/);
   },
   hasShortenedLink: function() {
     return this.doRegexSearch(/bit\.ly|goo\.gl|tinyurl\.com|tr\.im|ow\.ly|is\.gd|rdlnk\.co|bit\.do|mcaf\.ee|x\.co|dft\.ba|dyi\.li|v\.gd|gg\.gg|rdd\.me|shorten\.me|tiny\.tw|u\.to|shoutkey\.com|sze\.me|smplurl\.com|slink\.co|zbbx\.me|adf\.ly|b54\.in|adcrun\.ch|cpv\.li|cro\.pm|ukl\.me\.uk/);
@@ -424,8 +424,8 @@ _.extend(Message.prototype, {
     var messageText = $messageText.text();
     $messageText.wrapAll($messageElement);
 
-    var mentions = _.uniq(messageText.match(/(@[\w\d]+)/g) || []);
-    var template = _.template('<span class="user"><%= user %></span>');
+    var mentions = _.uniq(messageText.match(/(^|[^a-z0-9_])@([a-z0-9_]+)/g) || []);
+    var template = _.template('<span class="user mention"><%= user %></span>');
     if (mentions.length !== 0) {
       _.each(mentions, function(mention) {
         var $mention = template({user: mention});
@@ -434,7 +434,7 @@ _.extend(Message.prototype, {
 
       var $element = this.$element.children('.message-text');
       $element.html(messageText);
-      $element.children('.user').click(function() {
+      $element.children('.mention').click(function() {
         var username = $(this).text();
         MessageInput.AppendAndMoveToEnd(username + ' ');
       });

@@ -1,16 +1,12 @@
-html,
-body {
+html {
     width: 550px;
-    min-height: 400px;
 }
 
 body {
     padding: 10px 20px 20px 20px;
 }
 
-select[name="users_block"],
-select[name="users_spam"],
-select[name="users_friends"] {
+select[name^="users_"] {
     margin-bottom: 15px;
 }
 
