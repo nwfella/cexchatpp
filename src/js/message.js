@@ -399,7 +399,7 @@ _.extend(Message.prototype, {
     return this.doRegexSearch(/[0-9a-zA-Z]{27,34}/);
   },
   hasReferralLink: function() {
-    return this.doRegexSearch(/\/\?r=|cex\.io\/r\/|\?refid=|\?ref=/);
+    return this.doRegexSearch(/\/\?r=|cex\.io\/r\/|\?refid=|\?ref=|referral\//);
   },
   hasShortenedLink: function() {
     return this.doRegexSearch(/bit\.ly|goo\.gl|tinyurl\.com|tr\.im|ow\.ly|is\.gd|rdlnk\.co|bit\.do|mcaf\.ee|x\.co|dft\.ba|dyi\.li|v\.gd|gg\.gg|rdd\.me|shorten\.me|tiny\.tw|u\.to|shoutkey\.com|sze\.me|smplurl\.com|slink\.co|zbbx\.me|adf\.ly|b54\.in|adcrun\.ch|cpv\.li|cro\.pm|ukl\.me\.uk/);
