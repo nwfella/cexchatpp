@@ -67,7 +67,7 @@ _.extend(BaseSettings.prototype, {
     css: {
       value: '\
 .friends span.user {\n\
-  color: rgb(144, 238, 144);\n\
+  color: rgb(0, 255, 0);\n\
 }\n\
 \n\
 .spam span.user {\n\
